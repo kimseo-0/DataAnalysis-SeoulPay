@@ -1,0 +1,16 @@
+[project]
+name = "dataanalysis-seoulpay"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "jupyter>=1.1.1",
+    "kiwipiepy>=0.21.0",
+    "konlpy>=0.6.0",
+    "koreanize-matplotlib>=0.1.1",
+    "matplotlib>=3.10.5",
+    "pandas>=2.3.1",
+    "selenium>=4.34.2",
+    "wordcloud>=1.9.4",
+]
