@@ -1,8 +1,8 @@
 import re
 from konlpy.tag import Okt
 from kiwipiepy import Kiwi
-import pandas as pd
 
+# 레벨 3
 def get_token_list(
     series,
     nlp_type = "okt",
@@ -58,5 +58,53 @@ def get_token_list(
             word_list.extend(temp_list)
         else:
             word_list.append(temp_list)
+        
+    return word_list
+
+# 레벨 2
+def get_word_list(series, nlp_type = "okt", stopwords = [], pos_tags = []):
+    word_list = []
+    
+    nlp = Okt()
+    if nlp_type == 'kiwi':
+        nlp = Kiwi()
+
+    for i, text in enumerate(series.tolist()):
+        # STEP1: 데이터 전처리
+        new_text = re.sub("[^a-zA-Z가-힣\\s]", "", text)
+
+        # STEP2: 형태소 분석
+        result = nlp.pos(new_text)
+
+        # STEP3: 조건에 맞는 단어 담기
+        for word, pos in result:
+            if len(word) > 1 and word not in stopwords:
+                if pos_tags == []:                
+                    word_list.append(word)
+                elif pos in pos_tags:
+                    word_list.append(word)
+        
+    return word_list
+
+# 레벨 1
+def get_word_list_with_okt(series, stopwords = [], pos_tags = []):
+    okt = Okt()
+
+    word_list = []
+    
+    for i, text in enumerate(series.tolist()):
+        # STEP1: 데이터 전처리
+        new_text = re.sub("[^a-zA-Z가-힣\\s]", "", text)
+
+        # STEP2: 형태소 분석
+        result = okt.pos(new_text)
+
+        # STEP3: 조건에 맞는 단어 담기
+        for word, pos in result:
+            if len(word) > 1 and word not in stopwords:
+                if pos_tags == []:                
+                    word_list.append(word)
+                elif pos in pos_tags:
+                    word_list.append(word)
         
     return word_list
